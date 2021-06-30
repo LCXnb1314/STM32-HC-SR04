@@ -2,17 +2,17 @@
 #include "delay.h"
 
 /**
-	*@brief	³¬Éù²¨Ä£¿é³õÊ¼»¯
-	*@param	ÎŞ
-	*@retval	ÎŞ
+	*@brief	è¶…å£°æ³¢æ¨¡å—åˆå§‹åŒ–
+	*@param	æ— 
+	*@retval	æ— 
 	*/
 void Ultrasonic_Init(void)
 {
-	//Ê±ÖÓÊ¹ÄÜ
+	//æ—¶é’Ÿä½¿èƒ½
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4,ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,ENABLE);
 	
-	//PC7³õÊ¼»¯£¨Trig¹Ü½Å£©
+	//PC7åˆå§‹åŒ–ï¼ˆTrigç®¡è„šï¼‰
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_7;
@@ -20,19 +20,19 @@ void Ultrasonic_Init(void)
 	GPIO_Init(GPIOC,&GPIO_InitStructure);
 	GPIO_ResetBits(GPIOC,GPIO_Pin_7);
 	
-	//PC6³õÊ¼»¯£¨Echo¹Ü½Å£©
+	//PC6åˆå§‹åŒ–ï¼ˆEchoç®¡è„šï¼‰
 	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_IPD;
 	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_6;
 	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC,&GPIO_InitStructure);
 	GPIO_ResetBits(GPIOC,GPIO_Pin_6);
 	
-	//¶¨Ê±Æ÷4³õÊ¼»¯
+	//å®šæ—¶å™¨4åˆå§‹åŒ–
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
 	TIM_TimeBaseInitStructure.TIM_ClockDivision=0;
 	TIM_TimeBaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up;
-	TIM_TimeBaseInitStructure.TIM_Period=1999;//¼ÆÊıÆ÷×î´ó¼Äµ½2000£¬ÖÜÆÚ1s£¬Ã¿¼ÇÒ»Êı0.5ms
-	TIM_TimeBaseInitStructure.TIM_Prescaler=35999;
+	TIM_TimeBaseInitStructure.TIM_Period=9999;//è®¡æ•°å™¨æœ€å¤§å¯„åˆ°10000ï¼Œå‘¨æœŸ0.01sï¼Œæ¯è®°ä¸€æ•°10us
+	TIM_TimeBaseInitStructure.TIM_Prescaler=719;
 	TIM_TimeBaseInit(TIM4,&TIM_TimeBaseInitStructure);
 	
 	
@@ -40,10 +40,10 @@ void Ultrasonic_Init(void)
 
 
 /**
-	*@brief	³¬Éù²¨Ä£¿é²â¾à
-	*@param	ÎŞ
-	*@retval	¾àÀë
-	*²âÊÔ¾àÀë=£¨¸ßµçÆ½Ê±¼ä*ÉùËÙ£¨340m/s£©£©/2
+	*@brief	è¶…å£°æ³¢æ¨¡å—æµ‹è·
+	*@param	æ— 
+	*@retval	è·ç¦»
+	*æµ‹è¯•è·ç¦»=ï¼ˆé«˜ç”µå¹³æ—¶é—´*å£°é€Ÿï¼ˆ340m/sï¼‰ï¼‰/2
 	*/
 float Ultrasonic_Distance(void)
 {
@@ -68,7 +68,7 @@ float Ultrasonic_Distance(void)
 		
 		Num+=Temp;	
 	}
-	Distance=((Num/5)*0.0005*Speed)/2;
+	Distance=((Num/5)*0.00001*Speed)/2;
 	return Distance;
 }
 
